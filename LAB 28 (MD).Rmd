@@ -1,0 +1,54 @@
+---
+title: "LAB 28 (MD)"
+author: "Ingrid Villarreal V"
+date: "2025-10-07"
+output: html_document
+---
+
+Cargar paquete tidyverse
+```{r}
+library(tidyverse)
+```
+
+Cargar datos
+```{r}
+acciones <- tibble(
+  anio = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+  trimestre = c(1, 2, 3, 4, 2, 3, 4),
+  retorno = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66)
+)
+```
+
+DF1
+Convertir en dataframe
+```{r}
+DF1 = acciones
+```
+
+DF2
+VER EXPLICITOS LOS VALORES FALTANTES
+```{r}
+DF2 = DF1 %>% 
+  spread(anio, retorno)
+```
+
+DF3
+ELIMINAR LOS VALORES FALTANTES (EXPLICITOS E IMPLICITOS)
+```{r}
+DF3 = acciones %>% 
+  pivot_wider(names_from = anio, values_from = retorno) %>% 
+  pivot_longer(
+    cols = c("2015" , "2016"),
+    names_to = "anio",
+    values_to = "retorno",
+    values_drop_na = TRUE
+  )
+```
+
+DF4
+OTRA HERRAMIENTA PARA HACER EXPLICITOS LOS VALORES FALTANTES (CONSERVANDO LA ESTRUCTURA ORIGINAL)
+```{r}
+DF4 = DF1  %>% 
+  complete(anio, trimestre)
+```
+
